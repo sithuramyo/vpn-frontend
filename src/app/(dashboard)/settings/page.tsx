@@ -79,7 +79,11 @@ export default function SettingsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
             <Label>Default server</Label>
-            <Select value={defaults.serverId ?? ""} onValueChange={(v) => updateDefaults({ serverId: v ?? undefined })}>
+            <Select
+              items={servers.data?.data.map((s) => ({ value: s.id, label: s.name })) ?? []}
+              value={defaults.serverId ?? ""}
+              onValueChange={(v) => updateDefaults({ serverId: v ?? undefined })}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="No default" />
               </SelectTrigger>

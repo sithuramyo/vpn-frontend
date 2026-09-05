@@ -99,7 +99,11 @@ export function AccessKeyFormDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>User</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      items={users.data?.data.map((u) => ({ value: u.id, label: u.name })) ?? []}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select user" />
@@ -123,7 +127,11 @@ export function AccessKeyFormDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Server</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      items={servers.data?.data.map((s) => ({ value: s.id, label: s.name })) ?? []}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select server" />

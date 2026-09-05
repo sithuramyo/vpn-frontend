@@ -28,6 +28,13 @@ const ACTIONS = [
 
 const RESOURCE_TYPES = ["admin", "vpn_user", "vpn_device", "access_key", "vpn_server"];
 
+const ACTION_OPTIONS = [{ value: "all", label: "All actions" }, ...ACTIONS.map((a) => ({ value: a, label: a }))];
+
+const RESOURCE_OPTIONS = [
+  { value: "all", label: "All resources" },
+  ...RESOURCE_TYPES.map((r) => ({ value: r, label: r })),
+];
+
 export default function AuditLogsPage() {
   const [page, setPage] = useState(1);
   const [action, setAction] = useState("all");
@@ -52,28 +59,30 @@ export default function AuditLogsPage() {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Select value={action} onValueChange={(v) => { if (v) { setAction(v); setPage(1); } }}>
+        <Select items={ACTION_OPTIONS} value={action} onValueChange={(v) => { if (v) { setAction(v); setPage(1); } }}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder="Action" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All actions</SelectItem>
-            {ACTIONS.map((a) => (
-              <SelectItem key={a} value={a}>
-                {a}
+            {ACTION_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <Select value={resourceType} onValueChange={(v) => { if (v) { setResourceType(v); setPage(1); } }}>
+        <Select
+          items={RESOURCE_OPTIONS}
+          value={resourceType}
+          onValueChange={(v) => { if (v) { setResourceType(v); setPage(1); } }}
+        >
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Resource" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All resources</SelectItem>
-            {RESOURCE_TYPES.map((r) => (
-              <SelectItem key={r} value={r}>
-                {r}
+            {RESOURCE_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
               </SelectItem>
             ))}
           </SelectContent>

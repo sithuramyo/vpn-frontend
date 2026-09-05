@@ -38,6 +38,13 @@ import { useDeleteUser, useDisableUser, useUsers } from "@/hooks/useUsers";
 import { formatBytes, formatDateShort } from "@/lib/format";
 import type { VPNUser } from "@/types/api";
 
+const STATUS_OPTIONS = [
+  { value: "all", label: "All statuses" },
+  { value: "ACTIVE", label: "Active" },
+  { value: "DISABLED", label: "Disabled" },
+  { value: "EXPIRED", label: "Expired" },
+];
+
 export default function UsersPage() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<string>("all");
@@ -117,6 +124,7 @@ export default function UsersPage() {
           />
         </div>
         <Select
+          items={STATUS_OPTIONS}
           value={status}
           onValueChange={(v) => {
             if (v) {
@@ -129,10 +137,11 @@ export default function UsersPage() {
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
-            <SelectItem value="ACTIVE">Active</SelectItem>
-            <SelectItem value="DISABLED">Disabled</SelectItem>
-            <SelectItem value="EXPIRED">Expired</SelectItem>
+            {STATUS_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

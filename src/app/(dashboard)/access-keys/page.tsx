@@ -25,6 +25,13 @@ import { useAccessKeys, useRevokeAccessKey, useRotateAccessKey } from "@/hooks/u
 import { formatBytes, formatDateShort } from "@/lib/format";
 import type { AccessKey } from "@/types/api";
 
+const STATUS_OPTIONS = [
+  { value: "all", label: "All statuses" },
+  { value: "ACTIVE", label: "Active" },
+  { value: "REVOKED", label: "Revoked" },
+  { value: "EXPIRED", label: "Expired" },
+];
+
 export default function AccessKeysPage() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("all");
@@ -75,15 +82,16 @@ export default function AccessKeysPage() {
         </RoleGate>
       </div>
 
-      <Select value={status} onValueChange={(v) => { if (v) { setStatus(v); setPage(1); } }}>
+      <Select items={STATUS_OPTIONS} value={status} onValueChange={(v) => { if (v) { setStatus(v); setPage(1); } }}>
         <SelectTrigger className="sm:w-40">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All statuses</SelectItem>
-          <SelectItem value="ACTIVE">Active</SelectItem>
-          <SelectItem value="REVOKED">Revoked</SelectItem>
-          <SelectItem value="EXPIRED">Expired</SelectItem>
+          {STATUS_OPTIONS.map((o) => (
+            <SelectItem key={o.value} value={o.value}>
+              {o.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

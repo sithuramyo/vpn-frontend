@@ -29,6 +29,21 @@ import { useDevices, useUpdateDeviceStatus } from "@/hooks/useDevices";
 import { formatDate, formatDateShort } from "@/lib/format";
 import type { VPNDevice } from "@/types/api";
 
+const STATUS_OPTIONS = [
+  { value: "all", label: "All statuses" },
+  { value: "ACTIVE", label: "Active" },
+  { value: "DISABLED", label: "Disabled" },
+  { value: "REVOKED", label: "Revoked" },
+];
+
+const PLATFORM_OPTIONS = [
+  { value: "all", label: "All platforms" },
+  { value: "ANDROID", label: "Android" },
+  { value: "IOS", label: "iOS" },
+  { value: "WINDOWS", label: "Windows" },
+  { value: "MACOS", label: "macOS" },
+];
+
 export default function DevicesPage() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("all");
@@ -71,27 +86,28 @@ export default function DevicesPage() {
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Select value={status} onValueChange={(v) => { if (v) { setStatus(v); setPage(1); } }}>
+        <Select items={STATUS_OPTIONS} value={status} onValueChange={(v) => { if (v) { setStatus(v); setPage(1); } }}>
           <SelectTrigger className="sm:w-40">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
-            <SelectItem value="ACTIVE">Active</SelectItem>
-            <SelectItem value="DISABLED">Disabled</SelectItem>
-            <SelectItem value="REVOKED">Revoked</SelectItem>
+            {STATUS_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        <Select value={platform} onValueChange={(v) => { if (v) { setPlatform(v); setPage(1); } }}>
+        <Select items={PLATFORM_OPTIONS} value={platform} onValueChange={(v) => { if (v) { setPlatform(v); setPage(1); } }}>
           <SelectTrigger className="sm:w-40">
             <SelectValue placeholder="Platform" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All platforms</SelectItem>
-            <SelectItem value="ANDROID">Android</SelectItem>
-            <SelectItem value="IOS">iOS</SelectItem>
-            <SelectItem value="WINDOWS">Windows</SelectItem>
-            <SelectItem value="MACOS">macOS</SelectItem>
+            {PLATFORM_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
